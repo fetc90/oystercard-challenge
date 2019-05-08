@@ -35,9 +35,13 @@ subject(:card) {described_class.new}
 
   describe "#touch_in" do
       it "start journey" do
-      #card = Oystercard.new
+      card = Oystercard.new(5)
       card.touch_in
       expect(card).to be_in_journey
+      end
+
+      it "raises an error if card balance too low" do
+      expect { card.touch_in }.to raise_error("insufficient travel funds")
       end
     end
 
