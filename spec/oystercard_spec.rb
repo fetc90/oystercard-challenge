@@ -19,13 +19,13 @@ subject(:card) {described_class.new}
     end
   end
 
-  describe "#deduct" do
-    it "deducts from oyster card balance" do
-    card = Oystercard.new(50)
-    card.deduct(20)
-    expect(card.balance).to eq(30)
-    end
-  end
+  # describe "#deduct" do
+  #   it "deducts from oyster card balance" do
+  #   card = Oystercard.new(50)
+  #   card.deduct(20)
+  #   expect(card.balance).to eq(30)
+  #   end
+  # end
 
   # describe "#in_journey?" do
   #   it "checks journey status" do

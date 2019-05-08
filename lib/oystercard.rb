@@ -15,9 +15,11 @@ class Oystercard
     @balance += n
   end
 
+private
   def deduct(n)
     @balance -= n
   end
+public
 
   def in_journey?
     @journey
