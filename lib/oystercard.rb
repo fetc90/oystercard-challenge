@@ -2,6 +2,7 @@
 class Oystercard
   MAXIMUM_AMOUNT = 90
   MINIMUM_AMOUNT = 1
+  FARE = 5
   attr_reader :balance, :journey
 
   def initialize(balance= 0, journey = false)
@@ -28,6 +29,7 @@ class Oystercard
   end
 
   def touch_out
+    @balance -= FARE
     @journey = false
   end
 

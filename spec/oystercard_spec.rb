@@ -50,6 +50,10 @@ subject(:card) {described_class.new}
       subject.touch_out
       expect(subject).not_to be_in_journey
     end
+
+      it "charges card on touch out" do
+      expect {subject.touch_out}.to change{subject.balance}.by(-Oystercard::FARE)
+      end
   end
 
 end
