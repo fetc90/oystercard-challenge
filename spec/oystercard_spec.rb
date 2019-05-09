@@ -3,7 +3,6 @@ require 'oystercard'
 describe Oystercard do
 subject(:card) {described_class.new}
 
-
   it "has a balance" do
     expect(subject.balance).to eq(0)
   end
@@ -34,35 +33,46 @@ subject(:card) {described_class.new}
   # end
 
   describe "#touch_in" do
-    let (:entry_station) { double :entry_station}
 
-      it "start journey" do
+    it "raises an error if card balance too low" do
+    expect { card.touch_in(:entry_station) }.to raise_error("insufficient travel funds")
+    end
+
+      it "starts journey" do
       card = Oystercard.new(10)
-      card.touch_in(entry_station)
+      card.touch_in(:entry_station)
       expect(card).to be_in_journey
       end
+    end
 
-      it "raises an error if card balance too low" do
-      expect { card.touch_in(entry_station) }.to raise_error("insufficient travel funds")
-      end
-
+      describe 'let' do
+      let (:entry_station) { double :entry_station}
       it "remembers the station after touch_in" do
       card = Oystercard.new(10)
-      card.touch_in(entry_station)
-      expect(card.touch_in(entry_station)).to eq(card.journies)
+      #card.touch_in(entry_station)
+      expect(card.touch_in(entry_station)).to eq(entry_station)
       end
-
     end
+
+
 
     describe "#touch_out" do
       it "ends journey" do
       subject.touch_out
       expect(subject).not_to be_in_journey
+      end
+
+      it "forgets the entry_station" do
+      card = Oystercard.new(10)
+      card.touch_in(:entry_station)
+      card.touch_out
+
+      expect(card.touch_out).to eq(nil)
+      end
+
     end
 
       it "charges card on touch out" do
       expect {subject.touch_out}.to change{subject.balance}.by(-Oystercard::FARE)
       end
   end
-
-end
