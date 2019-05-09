@@ -34,15 +34,24 @@ subject(:card) {described_class.new}
   # end
 
   describe "#touch_in" do
+    let (:entry_station) { double :entry_station}
+
       it "start journey" do
-      card = Oystercard.new(5)
-      card.touch_in
+      card = Oystercard.new(10)
+      card.touch_in(entry_station)
       expect(card).to be_in_journey
       end
 
       it "raises an error if card balance too low" do
-      expect { card.touch_in }.to raise_error("insufficient travel funds")
+      expect { card.touch_in(entry_station) }.to raise_error("insufficient travel funds")
       end
+
+      it "remembers the station after touch_in" do
+      card = Oystercard.new(10)
+      card.touch_in(entry_station)
+      expect(card.touch_in(entry_station)).to eq(card.journies)
+      end
+
     end
 
     describe "#touch_out" do
