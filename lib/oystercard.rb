@@ -3,13 +3,14 @@ class Oystercard
   MAXIMUM_AMOUNT = 90
   MINIMUM_AMOUNT = 1
   FARE = 1
-  attr_reader :balance, :entry_station, :journies
+  attr_reader :balance, :entry_station, :journey_log, :exit_station, :one_journey
 
   def initialize(balance= 0)
 
     @balance = balance
-    @journies = []
-    @entry_station = nil
+    @entry_station = entry_station
+    @journey_log = []
+    @one_journey = Hash.new
 
   end
 
@@ -26,17 +27,20 @@ public
 
   def touch_in(entry_station)
     raise "insufficient travel funds" if @balance < MINIMUM_AMOUNT
-    @journies << entry_station
-    @entry_station = entry_station
+
+    @one_journey.merge!("entry_station": entry_station)
   end
 
   def in_journey?
    @entry_station != nil
   end
 
-  def touch_out
+  def touch_out(exit_station)
     @balance -= FARE
-    @entry_station = nil
+    @exit_station = exit_station
+    @one_journey.merge!("exit_station": exit_station)
+    # @journey_log << @one_journey
+
   end
 
 end
