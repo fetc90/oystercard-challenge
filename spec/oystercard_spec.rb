@@ -27,15 +27,15 @@ subject(:card) {described_class.new}
       it "starts journey" do
       card = Oystercard.new(10)
       card.touch_in(:entry_station)
-      expect(card).to be_in_journey
+      expect(card.in_journey?).to eq(true)
       end
     end
 
       describe 'entry station double' do
-        let (:entry_station) { double :one_journey}
+        let (:entry_station) { double :entry_station}
         it "remembers the station after touch_in" do
           card = Oystercard.new(10)
-          expect(card.touch_in(:entry_station)).to eq(card.one_journey)
+          expect(card.touch_in(:entry_station)).to eq(:entry_station)
         end
       end
 
@@ -77,7 +77,7 @@ subject(:card) {described_class.new}
       end
 
       it 'checks that the journey log is empty' do
-        expect(card.journey_log).to eq []
+        expect(card.log).to eq [{}]
       end
 
 
